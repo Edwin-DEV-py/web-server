@@ -31,7 +31,7 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price} = req.body;
-        const postURL = 'http://127.0.0.1:8001/api/cart/';
+        const postURL = 'http://127.0.0.1:8000/api/cart/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
@@ -41,6 +41,34 @@ app.post('/enviar-token', (req, res) => {
         //console.log('id_carta:', id_carta);
         //console.log('price:', price);
         axios.post(postURL, cartItem)
+    });
+
+});
+
+app.get('/obtener-carrito', async(req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, async(err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const postURL = `http://127.0.0.1:8000/api/cart/${userID}`;
+        console.log("usuario",userID)
+        try{
+            const response = await axios.get(postURL);
+            res.json(response.data);
+        }catch(error){
+            console.log('Error al obtener los datos',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        }
     });
 
 });
