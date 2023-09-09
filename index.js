@@ -31,7 +31,7 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price} = req.body;
-        const postURL = 'http://127.0.0.1:8000/api/cart/';
+        const postURL = 'http://127.0.0.1:8000/api/cartshop/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
