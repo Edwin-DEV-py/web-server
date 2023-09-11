@@ -117,14 +117,14 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `http://127.0.0.1:8001/api/cart/${userID}`;
+        const postURL = `http://127.0.0.1:8000/api/cart/`;
         const cartItem = {
             user: userID
         }
-        console.log("usuario",userID)
         try{
-            const response = await axios.get(postURL,cartItem);
+            const response = await axios.get(postURL,{data: cartItem});
             res.json(response.data);
+            console.log(response.data)
         }catch(error){
             console.log('Error al obtener los datos',error);
             res.status(500).json({ message: 'Error en el servidor web' });
