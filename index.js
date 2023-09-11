@@ -15,6 +15,7 @@ app.use((req, res, next) => {
 
 const secretKey = '3eaf50158d956cef59f00c45a42cabb143a8c6e8e26492ab8bac12dd6a2a2221';
 
+//agregar al carrito
 app.post('/enviar-token', (req, res) => {
     const token = req.headers.authorization;
 
@@ -30,21 +31,77 @@ app.post('/enviar-token', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const {id_carta, price} = req.body;
-        const postURL = 'http://127.0.0.1:8000/api/cartshop/';
+        const {id_carta, price,nombre_carta} = req.body;
+        const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
+            nombre_carta:nombre_carta,
             price: price,
             user: userID
         }
-        //console.log('id_carta:', id_carta);
-        //console.log('price:', price);
         axios.post(postURL, cartItem)
     });
 
 });
 
+//remover del carrito
+app.post('/remover-carta', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const {id_carta} = req.body;
+        const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
+        console.log(userID)
+        const cartItem = {
+            id_carta: id_carta,
+            user: userID
+        }
+        axios.post(postURL, cartItem)
+    });
+
+});
+
+//borrar del carrito
+app.post('/borrar-carta', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const {id_carta} = req.body;
+        const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
+        console.log(userID)
+        const cartItem = {
+            id_carta: id_carta,
+            user: userID
+        }
+        axios.post(postURL, cartItem)
+    });
+
+});
+
+//ver el carrito
 app.get('/obtener-carrito', async(req, res) => {
     const token = req.headers.authorization;
 
@@ -60,7 +117,7 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `http://127.0.0.1:8000/api/cart/${userID}`;
+        const postURL = `http://127.0.0.1:8001/api/cart/${userID}`;
         console.log("usuario",userID)
         try{
             const response = await axios.get(postURL);
