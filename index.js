@@ -118,9 +118,12 @@ app.get('/obtener-carrito', async(req, res) => {
         }
         const userID = decoded.user_id;
         const postURL = `http://127.0.0.1:8001/api/cart/${userID}`;
+        const cartItem = {
+            user: userID
+        }
         console.log("usuario",userID)
         try{
-            const response = await axios.get(postURL);
+            const response = await axios.get(postURL,cartItem);
             res.json(response.data);
         }catch(error){
             console.log('Error al obtener los datos',error);
