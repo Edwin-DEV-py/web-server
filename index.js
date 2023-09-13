@@ -57,6 +57,7 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price,nombre_carta} = req.body;
+        //const postURL = `http://104.40.30.239:8001/api/cartshop/`;
         const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
         const cartItem = {
@@ -93,6 +94,7 @@ app.post('/remover-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
+        //const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
         const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
         console.log(userID)
         const cartItem = {
@@ -127,6 +129,7 @@ app.post('/borrar-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
+        //const postURL = `http://104.40.30.239:8001/api/cart/delete/`;
         const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
         console.log(userID)
         const cartItem = {
@@ -160,6 +163,7 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
+        //const postURL = `http://104.40.30.239:8001/api/cart/`;
         const postURL = `http://127.0.0.1:8001/api/cart/`;
         const cartItem = {
             user: userID
