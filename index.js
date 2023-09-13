@@ -1,11 +1,22 @@
 import express from "express";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import { Server } from "socket.io";
+import http from 'http';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET","POST"],
+    }
+});
 
 app.use(express.json());
+app.use(cors());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -14,6 +25,20 @@ app.use((req, res, next) => {
 });
 
 const secretKey = '3eaf50158d956cef59f00c45a42cabb143a8c6e8e26492ab8bac12dd6a2a2221';
+
+//configuracion del socket
+io.on('connection', (socket) => {
+    console.log('Cliente conectado a WebSocket');
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado de WebSocket');
+    });
+});
+
+//socket
+function sendCartUpdateToClients(socket, updatedCartData) {
+    socket.emit('cartUpdated', updatedCartData);
+}
 
 //agregar al carrito
 app.post('/enviar-token', (req, res) => {
@@ -40,7 +65,13 @@ app.post('/enviar-token', (req, res) => {
             price: price,
             user: userID
         }
-        axios.post(postURL, cartItem)
+        axios.post(postURL, cartItem).then((response) =>{
+            sendCartUpdateToClients(io,response.data);
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
     });
 
 });
@@ -68,7 +99,13 @@ app.post('/remover-carta', (req, res) => {
             id_carta: id_carta,
             user: userID
         }
-        axios.post(postURL, cartItem)
+        axios.post(postURL, cartItem).then((response) =>{
+            sendCartUpdateToClients(io,response.data);
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
     });
 
 });
@@ -96,7 +133,13 @@ app.post('/borrar-carta', (req, res) => {
             id_carta: id_carta,
             user: userID
         }
-        axios.post(postURL, cartItem)
+        axios.post(postURL, cartItem).then((response) =>{
+            sendCartUpdateToClients(io,response.data);
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
     });
 
 });
@@ -117,14 +160,13 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `http://127.0.0.1:8000/api/cart/`;
+        const postURL = `http://127.0.0.1:8001/api/cart/`;
         const cartItem = {
             user: userID
         }
         try{
             const response = await axios.get(postURL,{data: cartItem});
             res.json(response.data);
-            console.log(response.data)
         }catch(error){
             console.log('Error al obtener los datos',error);
             res.status(500).json({ message: 'Error en el servidor web' });
@@ -134,7 +176,7 @@ app.get('/obtener-carrito', async(req, res) => {
 });
 
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('Servidor escuchando en el puerto', port);
 });
 
