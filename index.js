@@ -57,8 +57,8 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price,nombre_carta} = req.body;
-        const postURL = `http://104.40.30.239:8001/api/cartshop/`;
-        //const postURL = 'http://127.0.0.1:8001/api/cartshop/';
+        //const postURL = `http://104.40.30.239:8001/api/cartshop/`;
+        const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
@@ -94,8 +94,8 @@ app.post('/remover-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
-        //const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
+        //const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
+        const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
@@ -129,8 +129,8 @@ app.post('/borrar-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `http://104.40.30.239:8001/api/cart/delete/`;
-        //const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
+        //const postURL = `http://104.40.30.239:8001/api/cart/delete/`;
+        const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
         console.log(userID)
         const cartItem = {
             id_carta: id_carta,
@@ -163,8 +163,8 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `http://104.40.30.239:8001/api/cart/`;
-        //const postURL = `http://127.0.0.1:8001/api/cart/`;
+        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        const postURL = `http://127.0.0.1:8001/api/cart/`;
         const cartItem = {
             user: userID
         }
@@ -175,6 +175,38 @@ app.get('/obtener-carrito', async(req, res) => {
             console.log('Error al obtener los datos',error);
             res.status(500).json({ message: 'Error en el servidor web' });
         }
+    });
+
+});
+
+//crear orden de compra
+app.post('/crear-orden', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        //const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
+        const postURL = 'http://127.0.0.1:8003/api/order/';
+        console.log(userID)
+        const cartItem = {
+            'user':userID
+        }
+        axios.post(postURL,cartItem).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al crear orden',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
     });
 
 });
