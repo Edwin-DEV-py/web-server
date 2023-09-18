@@ -281,6 +281,38 @@ app.get('/ver-perfil', async(req, res) => {
 
 });
 
+//ver informacion de usuario
+app.get('/ver-informacion-perfil', async(req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, async(err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        const postURL = `http://127.0.0.1:8002/api/getuser/`;
+        const userItem = {
+            user: userID
+        }
+        try{
+            const response = await axios.get(postURL,{data: userItem});
+            res.json(response.data);
+        }catch(error){
+            console.log('Error al obtener los datos',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        }
+    });
+
+});
+
 //Obetener inventario
 app.get('/ver-inventario', async(req, res) => {
     const token = req.headers.authorization;
