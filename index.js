@@ -266,7 +266,7 @@ app.get('/ver-perfil', async(req, res) => {
         }
         const userID = decoded.user_id;
         //const postURL = `http://104.40.30.239:8001/api/cart/`;
-        const postURL = `http://127.0.0.1:8005/api/perfil/`;
+        const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
         const cartItem = {
             user: userID
         }
@@ -298,7 +298,7 @@ app.get('/ver-inventario', async(req, res) => {
         }
         const userID = decoded.user_id;
         //const postURL = `http://104.40.30.239:8001/api/cart/`;
-        const postURL = `http://127.0.0.1:8005/api/inventario/`;
+        const postURL = `http://127.0.0.1:8004/api/inventario/${userID}`;
         const cartItem = {
             user: userID
         }
