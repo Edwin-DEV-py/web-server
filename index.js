@@ -57,7 +57,7 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price,nombre_carta} = req.body;
-        //const postURL = `http://104.40.30.239:8001/api/cartshop/`;
+        //const postURL = `http://20.25.34.123:8001/api/cartshop/`;
         const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
         const cartItem = {
@@ -94,7 +94,7 @@ app.post('/remover-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        //const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
+        //const postURL = `http://20.25.34.123:8001/api/cart/remove/`;
         const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
         console.log(userID)
         const cartItem = {
@@ -129,7 +129,7 @@ app.post('/borrar-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        //const postURL = `http://104.40.30.239:8001/api/cart/delete/`;
+        //const postURL = `http://20.25.34.123:8001/api/cart/delete/`;
         const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
         console.log(userID)
         const cartItem = {
@@ -163,7 +163,7 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        //const postURL = `http://20.25.34.123:8001/api/cart/`;
         const postURL = `http://127.0.0.1:8001/api/cart/`;
         const cartItem = {
             user: userID
@@ -195,7 +195,7 @@ app.post('/crear-orden', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://104.40.30.239:8001/api/cart/remove/`;
+        //const postURL = `http://20.25.34.123:8001/api/cart/remove/`;
         const postURL = 'http://127.0.0.1:8003/api/order/';
         console.log(userID)
         const cartItem = {
@@ -228,7 +228,7 @@ app.post('/pagar-orden', (req, res) => {
         }
         const userID = decoded.user_id;
         const {paymentID,status,order_id,order_total} = req.body;
-        //const postURL = `/api/payment/`;
+        //const postURL = `http://20.25.34.123:8003/api/payment/`;
         const postURL = 'http://127.0.0.1:8003/api/payment/';
         console.log(userID)
         const payment = {
@@ -265,7 +265,7 @@ app.get('/ver-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        //const postURL = `http://20.25.34.123:8004/api/erfil/%{userID}`;
         const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
         const cartItem = {
             user: userID
@@ -297,7 +297,7 @@ app.get('/ver-informacion-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        //const postURL = `http://20.25.34.123:8002/api/getuser/`;
         const postURL = `http://127.0.0.1:8002/api/getuser/`;
         const userItem = {
             user: userID
@@ -329,7 +329,7 @@ app.get('/ver-inventario', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://104.40.30.239:8001/api/cart/`;
+        //const postURL = `http://20.25.34.123:8004/api/inventario/${userID}`;
         const postURL = `http://127.0.0.1:8004/api/inventario/${userID}`;
         const cartItem = {
             user: userID
