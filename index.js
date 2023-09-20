@@ -214,7 +214,7 @@ app.post('/crear-orden', (req, res) => {
 });
 
 //ver orden
-app.get('/obtener-orden/:${orderId}', async(req, res) => {
+app.get('/obtener-orden/:orderId', async(req, res) => {
     const token = req.headers.authorization;
     const orderId = req.params.orderId;
     if (!token) {
