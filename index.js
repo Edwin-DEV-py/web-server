@@ -7,13 +7,14 @@ import cors from 'cors';
 
 const app = express();
 const port = 3000;
+/*
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET","POST"],
     }
-});
+});*/
 
 app.use(express.json());
 app.use(cors());
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 const secretKey = '3eaf50158d956cef59f00c45a42cabb143a8c6e8e26492ab8bac12dd6a2a2221';
 
+/*
 //configuracion del socket
 io.on('connection', (socket) => {
     console.log('Cliente conectado a WebSocket');
@@ -38,7 +40,7 @@ io.on('connection', (socket) => {
 //socket
 function sendCartUpdateToClients(socket, updatedCartData) {
     socket.emit('cartUpdated', updatedCartData);
-}
+}*/
 
 //agregar al carrito
 app.post('/enviar-token', (req, res) => {
@@ -67,7 +69,7 @@ app.post('/enviar-token', (req, res) => {
             user: userID
         }
         axios.post(postURL, cartItem).then((response) =>{
-            sendCartUpdateToClients(io,response.data);
+            //sendCartUpdateToClients(io,response.data);
             res.json(response.data)
         }).catch((error)=>{
             console.log('Error al agregar',error);
@@ -102,7 +104,7 @@ app.post('/remover-carta', (req, res) => {
             user: userID
         }
         axios.post(postURL, cartItem).then((response) =>{
-            sendCartUpdateToClients(io,response.data);
+            //sendCartUpdateToClients(io,response.data);
             res.json(response.data)
         }).catch((error)=>{
             console.log('Error al agregar',error);
@@ -137,7 +139,7 @@ app.post('/borrar-carta', (req, res) => {
             user: userID
         }
         axios.post(postURL, cartItem).then((response) =>{
-            sendCartUpdateToClients(io,response.data);
+            //sendCartUpdateToClients(io,response.data);
             res.json(response.data)
         }).catch((error)=>{
             console.log('Error al agregar',error);
@@ -346,7 +348,7 @@ app.get('/ver-inventario', async(req, res) => {
 });
 
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log('Servidor escuchando en el puerto', port);
 });
 
