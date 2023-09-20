@@ -197,8 +197,8 @@ app.post('/crear-orden', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/remove/`;
-        const postURL = 'http://127.0.0.1:8003/api/order/';
+        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/`;
+        //const postURL = 'http://127.0.0.1:8003/api/order/';
         console.log(userID)
         const cartItem = {
             'user':userID
@@ -230,8 +230,8 @@ app.post('/pagar-orden', (req, res) => {
         }
         const userID = decoded.user_id;
         const {paymentID,status,order_id,order_total} = req.body;
-        //const postURL = `http://20.25.34.123:8003/api/payment/`;
-        const postURL = 'http://127.0.0.1:8003/api/payment/';
+        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/payment/`;
+        //const postURL = 'http://127.0.0.1:8003/api/payment/';
         console.log(userID)
         const payment = {
             'user':userID,
