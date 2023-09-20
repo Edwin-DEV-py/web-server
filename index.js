@@ -297,7 +297,7 @@ app.get('/ver-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/perfil/%{userID}`;
+        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/perfil/${userID}`;
         //const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
         const cartItem = {
             user: userID
