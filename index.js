@@ -297,8 +297,8 @@ app.get('/ver-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://20.25.34.123:8004/api/perfil/%{userID}`;
-        const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
+        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/perfil/%{userID}`;
+        //const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
         const cartItem = {
             user: userID
         }
@@ -329,8 +329,8 @@ app.get('/ver-informacion-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://20.25.34.123:8002/api/getuser/`;
-        const postURL = `http://127.0.0.1:8002/api/getuser/`;
+        const postURL = `https://store.thenexusbattles2.cloud/login-api/api/getuser/`;
+        //const postURL = `http://127.0.0.1:8002/api/getuser/`;
         const userItem = {
             user: userID
         }
@@ -361,8 +361,8 @@ app.get('/ver-inventario', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `http://20.25.34.123:8004/api/inventario/${userID}`;
-        const postURL = `http://127.0.0.1:8004/api/inventario/${userID}`;
+        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/inventario/${userID}`;
+        //const postURL = `http://127.0.0.1:8004/api/inventario/${userID}`;
         const cartItem = {
             user: userID
         }
