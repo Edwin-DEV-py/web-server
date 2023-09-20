@@ -230,7 +230,7 @@ app.get('/obtener-orden/:${orderId}', async(req, res) => {
         }
 
 
-        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}`;
+        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
         //const postURL = `http://127.0.0.1:8001/api/cart/`;
         try{
             const response = await axios.get(postURL);
