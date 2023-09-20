@@ -213,6 +213,36 @@ app.post('/crear-orden', (req, res) => {
 
 });
 
+//ver orden
+app.get('/obtener-orden/:${orderId}', async(req, res) => {
+    const token = req.headers.authorization;
+    const orderId = req.params.orderId;
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, async(err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+
+
+        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}`;
+        //const postURL = `http://127.0.0.1:8001/api/cart/`;
+        try{
+            const response = await axios.get(postURL);
+            res.json(response.data);
+        }catch(error){
+            console.log('Error al obtener los datos',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        }
+    });
+
+});
+
 //pagar orden de compra
 app.post('/pagar-orden', (req, res) => {
     const token = req.headers.authorization;
