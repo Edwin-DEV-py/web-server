@@ -96,7 +96,7 @@ app.post('/remover-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/cart/remove/`;
+        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/remove/`;
         //const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
         console.log(userID)
         const cartItem = {
@@ -131,7 +131,7 @@ app.post('/borrar-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/cart/delete/`;
+        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/delete/`;
         //const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
         console.log(userID)
         const cartItem = {
