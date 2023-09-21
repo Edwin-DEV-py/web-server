@@ -5,13 +5,14 @@ import { Server } from "socket.io";
 import http from 'http';
 import cors from 'cors';
 import https from 'https';
+import fs from "fs";
 
 const app = express();
 const port = 3000;
 
 const server = https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
+    key: fs.readFileSync('privkey.pem'),
+    cert: fs.readFileSync('fullchain.pem')
 }, app);
 const io = new Server(server, {
     cors: {
