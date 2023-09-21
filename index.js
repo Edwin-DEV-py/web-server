@@ -203,8 +203,7 @@ app.post('/vaciar-carrito', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const {paymentID,status,order_id,order_total} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/delete/`;
+        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/vaciar/`;
         console.log(userID)
         const payment = {
             'user':userID,
