@@ -204,6 +204,7 @@ app.post('/vaciar-carrito', (req, res) => {
         }
         const userID = decoded.user_id;
         const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/vaciar/`;
+        //const postURL = `http://127.0.0.1:8001/api/cart/vaciar/`;
         console.log(userID)
         const payment = {
             'user':userID,
@@ -253,24 +254,21 @@ app.post('/crear-orden', (req, res) => {
 //ver orden
 app.get('/obtener-orden/:orderId', async(req, res) => {
     const orderId = req.params.orderId;
-
-
-
-        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
-        //const postURL = `http://127.0.0.1:8001/api/cart/`;
-        try{
-            const response = await axios.get(postURL);
-            res.json(response.data);
-        }catch(error){
-            console.log('Error al obtener los datos',error);
-            res.status(500).json({ message: 'Error en el servidor web' });
-        }
+    const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
+    //const postURL = `http://127.0.0.1:8003/api/order/${orderId}/`;
+    try{
+        const response = await axios.get(postURL);
+        res.json(response.data);
+    }catch(error){
+        console.log('Error al obtener los datos',error);
+        res.status(500).json({ message: 'Error en el servidor web' });
+    }
 
 
 });
 
 //pagar orden de compra
-app.post('/pagar-orden', (req, res) => {
+app.post('/pagar-orden', async (req, res) => {
     const token = req.headers.authorization;
 
     if (!token) {
@@ -279,32 +277,44 @@ app.post('/pagar-orden', (req, res) => {
 
     const tokenValue = token.replace('Bearer ', '');
 
-    jwt.verify(tokenValue, secretKey, (err, decoded) => {
-        if (err) {
-            console.error('Error al verificar el token:', err);
-            return res.status(401).json({ message: 'Token inválido' });
-        }
+    try {
+        const decoded = jwt.verify(tokenValue, secretKey);
         const userID = decoded.user_id;
-        const {paymentID,status,order_id,order_total} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/payment/`;
-        //const postURL = 'http://127.0.0.1:8003/api/payment/';
-        console.log(userID)
-        const payment = {
-            'user':userID,
-            'paymentID':paymentID,
-            'status':status,
-            'order_id':order_id,
-            'order_total':order_total
-        }
-        axios.post(postURL,payment).then((response) =>{
-            res.json(response.data)
-        }).catch((error)=>{
-            console.log('Error al crear orden',error);
-            res.status(500).json({ message: 'Error en el servidor web' });
-        })
-    });
+        const { paymentID, status, order_id, order_total } = req.body;
 
+        //const postURL = 'http://127.0.0.1:8003/api/payment/';
+        const postURL = 'https://store.thenexusbattles2.cloud/pagos-api/api/payment/'
+        //const postURL2 = 'http://127.0.0.1:8004/api/agg_inventario/';
+        const postURL2 = 'https://store.thenexusbattles2.cloud/perfil/api/agg_inventario/'
+
+        const payment = {
+            'user': userID,
+            'paymentID': paymentID,
+            'status': status,
+            'order_id': order_id,
+            'order_total': order_total
+        };
+
+        const inventary = {
+            'user': userID,
+            'order_id': order_id
+        };
+
+        // Esperar a que ambas solicitudes se completen
+        const [paymentResponse, inventoryResponse] = await Promise.all([
+            axios.post(postURL, payment),
+            axios.post(postURL2, inventary)
+        ]);
+        res.json({
+            paymentResponse: paymentResponse.data,
+            inventoryResponse: inventoryResponse.data
+        });
+    } catch (error) {
+        console.error('Error al verificar el token:', error);
+        res.status(401).json({ message: 'Token inválido' });
+    }
 });
+
 
 
 //ver mi perfil
@@ -402,6 +412,62 @@ app.get('/ver-inventario', async(req, res) => {
     });
 
 });
+
+
+//externos//
+
+//crear comentarios
+app.post('/crear-comentarios', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const {comentariosTexto,comentariosImg,id_carta,} = req.body;
+        const postURL = ``;
+        console.log(userID)
+        const payment = {
+            'comentariosUserName':userID,
+            'comentariosTexto':comentariosTexto,
+            'comentariosImg':comentariosImg,
+            'idCarta':id_carta
+        }
+        axios.post(postURL,payment).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al crear orden',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
+    });
+
+});
+
+//ver comentarios
+app.get('/ver-comentarios', (req, res) => {
+
+        const {id_carta,} = req.body;
+        const postURL = `http://alpha.bucaramanga.upb.edu.co:3000/api/comentariosCartas`;
+        console.log(userID)
+        const payment = {
+            'idCarta':id_carta,
+        }
+        axios.get(postURL,payment).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al crear orden',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
+});
+
 
 
 app.listen(port, () => {
