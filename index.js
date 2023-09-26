@@ -503,7 +503,7 @@ app.get('/ver-comentarios', (req, res) => {
 
 
 
-app.server(port, () => {
+server.listen(port, () => {
     console.log('Servidor escuchando en el puerto', port);
 });
 
