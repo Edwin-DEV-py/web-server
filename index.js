@@ -10,7 +10,7 @@ import fs from "fs";
 const app = express();
 const port = 3000;
 
-/*
+
 const server = https.createServer({
     key: fs.readFileSync('privkey.pem'),
     cert: fs.readFileSync('fullchain.pem')
