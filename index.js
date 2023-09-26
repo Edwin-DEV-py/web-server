@@ -10,7 +10,7 @@ import fs from "fs";
 const app = express();
 const port = 3000;
 
-/*
+
 const server = https.createServer({
     key: fs.readFileSync('privkey.pem'),
     cert: fs.readFileSync('fullchain.pem')
@@ -20,7 +20,7 @@ const io = new Server(server, {
         origin: "*",
         methods: ["GET","POST"],
     }
-});*/
+});
 
 app.use(express.json());
 app.use(cors());
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 
 const secretKey = '3eaf50158d956cef59f00c45a42cabb143a8c6e8e26492ab8bac12dd6a2a2221';
 
-/*
+
 //configuracion del socket
 io.on('connection', (socket) => {
     console.log('Cliente conectado a WebSocket');
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
 //socket
 function sendCartUpdateToClients(socket, updatedCartData) {
     socket.emit('cartUpdated', updatedCartData);
-}*/
+}
 
 //agregar al carrito
 app.post('/enviar-token', (req, res) => {
@@ -75,7 +75,7 @@ app.post('/enviar-token', (req, res) => {
             user: userID
         }
         axios.post(postURL, cartItem).then((response) =>{
-            //sendCartUpdateToClients(io,response.data);
+            sendCartUpdateToClients(io,response.data);
             res.json(response.data)
         }).catch((error)=>{
             console.log('Error al agregar',error);
@@ -503,7 +503,7 @@ app.get('/ver-comentarios', (req, res) => {
 
 
 
-app.listen(port, () => {
+app.server(port, () => {
     console.log('Servidor escuchando en el puerto', port);
 });
 
