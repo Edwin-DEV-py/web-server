@@ -10,6 +10,7 @@ import fs from "fs";
 const app = express();
 const port = 3000;
 
+
 /*
 const server = https.createServer({
     key: fs.readFileSync('privkey.pem'),
@@ -507,6 +508,7 @@ app.listen(port, () => {
     console.log('Servidor escuchando en el puerto', port);
 });
 
-
-
-
+//Show HTML message if app is running
+app.get('/', (req, res) => {
+    res.send('<h1>Service running! /h1>');
+});
