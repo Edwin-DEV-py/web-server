@@ -79,7 +79,7 @@ app.post('/enviar-token', (req, res) => {
             //sendCartUpdateToClients(io,response.data);
             res.json(response.data)
         }).catch((error)=>{
-            console.log('Error al agregar',error);
+            //console.log('Error al agregar',error);
             //res.status(500).json({ message: 'Error en el servidor web' });
         })
     });
