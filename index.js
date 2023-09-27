@@ -80,7 +80,7 @@ app.post('/enviar-token', (req, res) => {
             res.json(response.data)
         }).catch((error)=>{
             console.log('Error al agregar',error);
-            res.status(500).json({ message: 'Error en el servidor web' });
+            //res.status(500).json({ message: 'Error en el servidor web' });
         })
     });
 
