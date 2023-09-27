@@ -68,6 +68,7 @@ app.post('/enviar-token', (req, res) => {
         const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cartshop/`;
         //const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
+        console.log(id_carta,price,nombre_carta)
         const cartItem = {
             id_carta: id_carta,
             nombre_carta:nombre_carta,
