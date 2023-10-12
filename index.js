@@ -65,7 +65,7 @@ app.post('/enviar-token', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta, price,nombre_carta} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cartshop/`;
+        const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cartshop/`;
         //const postURL = 'http://127.0.0.1:8001/api/cartshop/';
         console.log(userID)
         console.log(id_carta,price,nombre_carta)
@@ -103,7 +103,7 @@ app.post('/remover-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/remove/`;
+        const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cart/remove/`;
         //const postURL = 'http://127.0.0.1:8001/api/cart/remove/';
         console.log(userID)
         const cartItem = {
@@ -138,7 +138,7 @@ app.post('/borrar-carta', (req, res) => {
         }
         const userID = decoded.user_id;
         const {id_carta} = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/delete/`;
+        const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cart/delete/`;
         //const postURL = 'http://127.0.0.1:8001/api/cart/delete/';
         console.log(userID)
         const cartItem = {
@@ -172,7 +172,7 @@ app.get('/obtener-carrito', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/`;
+        const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cart/`;
         //const postURL = `http://127.0.0.1:8001/api/cart/`;
         const cartItem = {
             user: userID
@@ -204,7 +204,7 @@ app.post('/vaciar-carrito', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/carrito/api/cart/vaciar/`;
+        const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cart/vaciar/`;
         //const postURL = `http://127.0.0.1:8001/api/cart/vaciar/`;
         console.log(userID)
         const payment = {
@@ -236,7 +236,7 @@ app.post('/crear-orden', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/`;
+        const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/order/`;
         //const postURL = 'http://127.0.0.1:8003/api/order/';
         console.log(userID)
         const cartItem = {
@@ -255,7 +255,7 @@ app.post('/crear-orden', (req, res) => {
 //ver orden
 app.get('/obtener-orden/:orderId', async(req, res) => {
     const orderId = req.params.orderId;
-    const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
+    const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
     //const postURL = `http://127.0.0.1:8003/api/order/${orderId}/`;
     try{
         const response = await axios.get(postURL);
@@ -284,9 +284,9 @@ app.post('/pagar-orden', async (req, res) => {
         const { paymentID, status, order_id, order_total } = req.body;
 
         //const postURL = 'http://127.0.0.1:8003/api/payment/';
-        const postURL = 'https://store.thenexusbattles2.cloud/pagos-api/api/payment/'
+        const postURL = 'https://api.thenexusbattles2.cloud/pagos-api/api/payment/'
         //const postURL2 = 'http://127.0.0.1:8004/api/agg_inventario/';
-        const postURL2 = 'https://store.thenexusbattles2.cloud/perfil/api/agg_inventario/'
+        const postURL2 = 'https://api.thenexusbattles2.cloud/perfil/api/agg_inventario/'
 
         const payment = {
             'user': userID,
@@ -334,7 +334,7 @@ app.get('/ver-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/perfil/${userID}/`;
+        const postURL = `https://api.thenexusbattles2.cloud/perfil/api/perfil/${userID}/`;
         //const postURL = `http://127.0.0.1:8004/api/perfil/${userID}`;
         const cartItem = {
             user: userID
@@ -366,7 +366,7 @@ app.get('/ver-informacion-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/login-api/api/getuser/`;
+        const postURL = `https://api.thenexusbattles2.cloud/login-api/api/getuser/`;
         //const postURL = `http://127.0.0.1:8002/api/getuser/`;
         const userItem = {
             user: userID
@@ -398,7 +398,7 @@ app.get('/ver-inventario', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://store.thenexusbattles2.cloud/perfil/api/inventario/${userID}/`;
+        const postURL = `https://api.thenexusbattles2.cloud/perfil/api/inventario/${userID}/`;
         //const postURL = `http://127.0.0.1:8004/api/inventario/${userID}`;
         const cartItem = {
             user: userID
@@ -431,7 +431,7 @@ app.post('/comprar-membresia', (req, res) => {
         }
         const userID = decoded.user_id;
         const { games } = req.body;
-        const postURL = `https://store.thenexusbattles2.cloud/pagos-api/api/perfil/${userID}/`;
+        const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/perfil/${userID}/`;
         //const postURL = `http://127.0.0.1:8004/api/perfil/${userID}/`;
         console.log(userID)
         const cartItem = {
