@@ -366,8 +366,8 @@ app.get('/ver-informacion-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://api.thenexusbattles2.cloud/login-api/api/getuser/`;
-        //const postURL = `http://127.0.0.1:8002/api/getuser/`;
+        //const postURL = `https://api.thenexusbattles2.cloud/login-api/api/getuser/`;
+        const postURL = `http://127.0.0.1:8000/api/getuser/`;
         const userItem = {
             user: userID
         }
