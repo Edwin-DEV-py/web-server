@@ -528,6 +528,95 @@ try{
 }
 });
 
+//Lista de deseo agregar
+app.post('/lista-deseo', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const {id_carta} = req.body;
+        //const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cartshop/`;
+        const postURL = 'http://localhost:9000/api/lista/insertar';
+        const cartItem = {
+            idproducto: id_carta,
+            idcliente: userID
+        }
+        axios.post(postURL, cartItem).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
+    });
+
+});
+
+//ver lista de deseo
+app.get('/ver-lista-deseo', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        //const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cartshop/`;
+        const postURL = `http://localhost:9000/api/lista/${userID}`;
+        axios.get(postURL).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
+    });
+
+});
+
+//borrar item de lista de deseo
+app.post('/borrar-deseo', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+
+    const tokenValue = token.replace('Bearer ', '');
+
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token:', err);
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        const userID = decoded.user_id;
+        const {id_carta} = req.body;
+        //const postURL = `https://api.thenexusbattles2.cloud/carrito/api/cartshop/`;
+        const postURL = `http://localhost:9000/api/lista/eliminar/${id_carta}`;
+        axios.delete(postURL).then((response) =>{
+            res.json(response.data)
+        }).catch((error)=>{
+            console.log('Error al agregar',error);
+            res.status(500).json({ message: 'Error en el servidor web' });
+        })
+    });
+
+});
 
 
 app.listen(port, () => {
