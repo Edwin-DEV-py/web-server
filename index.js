@@ -236,7 +236,7 @@ app.post('/crear-orden', (req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/order/`;
+        const postURL = `https://api.thenexusbattles2.cloud/pagos/api/order/`;
         //const postURL = 'http://127.0.0.1:8003/api/order/';
         console.log(userID)
         const cartItem = {
@@ -255,7 +255,7 @@ app.post('/crear-orden', (req, res) => {
 //ver orden
 app.get('/obtener-orden/:orderId', async(req, res) => {
     const orderId = req.params.orderId;
-    const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/order/${orderId}/`;
+    const postURL = `https://api.thenexusbattles2.cloud/pagos/api/order/${orderId}/`;
     //const postURL = `http://127.0.0.1:8003/api/order/${orderId}/`;
     try{
         const response = await axios.get(postURL);
@@ -284,7 +284,7 @@ app.post('/pagar-orden', async (req, res) => {
         const { paymentID, status, order_id, order_total } = req.body;
 
         //const postURL = 'http://127.0.0.1:8003/api/payment/';
-        const postURL = 'https://api.thenexusbattles2.cloud/pagos-api/api/payment/'
+        const postURL = 'https://api.thenexusbattles2.cloud/pagos/api/payment/'
         //const postURL2 = 'http://127.0.0.1:8004/api/agg_inventario/';
         const postURL2 = 'https://api.thenexusbattles2.cloud/perfil/api/agg_inventario/'
 
@@ -366,8 +366,8 @@ app.get('/ver-informacion-perfil', async(req, res) => {
             return res.status(401).json({ message: 'Token inválido' });
         }
         const userID = decoded.user_id;
-        //const postURL = `https://api.thenexusbattles2.cloud/login-api/api/getuser/`;
-        const postURL = `http://127.0.0.1:8000/api/getuser/`;
+        const postURL = `https://api.thenexusbattles2.cloud/ldap/api/getuser/`;
+        //const postURL = `http://127.0.0.1:8000/api/getuser/`;
         const userItem = {
             user: userID
         }
@@ -431,7 +431,7 @@ app.post('/comprar-membresia', (req, res) => {
         }
         const userID = decoded.user_id;
         const { games } = req.body;
-        const postURL = `https://api.thenexusbattles2.cloud/pagos-api/api/perfil/${userID}/`;
+        const postURL = `https://api.thenexusbattles2.cloud/perfil/api/perfil/${userID}/`;
         //const postURL = `http://127.0.0.1:8004/api/perfil/${userID}/`;
         console.log(userID)
         const cartItem = {
@@ -500,6 +500,32 @@ app.get('/ver-comentarios', (req, res) => {
             console.log('Error al crear orden',error);
             res.status(500).json({ message: 'Error en el servidor web' });
         })
+});
+
+//Login de Gestion cartas
+app.post('/login-gestion', (req, res) => {
+try{
+    const {username,password,} = req.body;
+    
+    const loginURL ='https://api.thenexusbattles2.cloud/ldap/api/token/'
+    const payment = {
+        username:username,
+        password:password,
+    }
+    axios.post(loginURL,payment).then((response) =>{
+        const accessToken = response.data.access;
+        jwt.verify(accessToken,secretKey, (err, decoded) =>{
+            const rol = decoded.is_admin
+            res.json({'access':accessToken,'admin':rol})
+        })
+        
+    }).catch((error)=>{
+        console.log('Error en el servidor web',error);
+        res.status(500).json({ message: 'Error en el servidor web' });
+    })
+}catch(e){
+    console.log(e)
+}
 });
 
 
